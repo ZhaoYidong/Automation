@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvAccessibilityStatus"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:background="@color/black"
+        android:gravity="center"
+        android:textColor="@color/white" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvPolicyAccessStatus"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:background="@color/black"
+        android:gravity="center"
+        android:textColor="@color/white" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvStop"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:background="@color/black"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:text="停止" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvDo"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:background="@color/black"
+        android:gravity="center"
+        android:text="每日例行"
+        android:textColor="@color/white" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv1"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:background="@color/black"
+        android:gravity="center"
+        android:text="1"
+        android:textColor="@color/white" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv2"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:background="@color/black"
+        android:gravity="center"
+        android:text="2"
+        android:textColor="@color/white" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv3"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:background="@color/black"
+        android:gravity="center"
+        android:text="3"
+        android:textColor="@color/white" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv5"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:background="@color/black"
+        android:gravity="center"
+        android:text="5"
+        android:textColor="@color/white" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv6"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:background="@color/black"
+        android:gravity="center"
+        android:text="6"
+        android:textColor="@color/white" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv7"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:background="@color/black"
+        android:gravity="center"
+        android:text="7"
+        android:textColor="@color/white" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv8"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:background="@color/black"
+        android:gravity="center"
+        android:text="8"
+        android:textColor="@color/white" />
+
+</LinearLayout>
