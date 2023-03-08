@@ -57,6 +57,7 @@ object JobArticle {
             for (index in 1..4) {
                 Log.e("yico", "广告 $index")
                 Thread.sleep(3000)
+                ActionUtils.clickByPoint(context, context.getNodeInfo(), (-3..3).random() + 10, 11, "看广告")
                 ActionUtils.clickByPoint(context, context.getNodeInfo(), (-3..3).random() + 10, 12, "看广告")
                 Thread.sleep((((0..5).random() + 30) * 1000L))//看广告
                 ActionUtils.clickByPointHighPrecision(context,  92, 8, "关闭广告")
@@ -69,14 +70,6 @@ object JobArticle {
     fun watchVideo(context: Context) {
         PhoneUtils.openApp(App.instance(), "com.ss.android.article.lite")
         context as DailyRoutineService
-        Thread.sleep(3000)
-        ActionUtils.actionByFindText("任务", context.getNodeInfo())
-        Thread.sleep(3000)
-        ActionUtils.slideByPoint(context, 8, "去顶部", false)
-        Thread.sleep(3000)
-        ActionUtils.slideByPoint(context, 8, "去顶部", false)
-        Thread.sleep(3000)
-        ActionUtils.clickByPoint(context, context.getNodeInfo(), 3, 7, "看视频赚钱")
         Thread.sleep(3000)
         for (a in 1..5) {
             Log.e("yico", "大循环 $a")
@@ -140,33 +133,6 @@ object JobArticle {
             }
         }
         Log.e("yico", "结束")
-    }
-
-    fun videoAd(context: Context) {//和treasureChest一样，废弃
-        PhoneUtils.openApp(App.instance(), "com.ss.android.article.lite")
-        context as DailyRoutineService
-        Thread.sleep(3000)
-        ActionUtils.actionByFindText("任务", context.getNodeInfo())
-        Thread.sleep(3000)
-        ActionUtils.slideByPoint(context, 8, "去顶部", false)
-        Thread.sleep(3000)
-        ActionUtils.slideByPoint(context, 8, "看广告赚金币")
-        Thread.sleep(3000)
-        ActionUtils.slideByPoint(context, 8, "看广告赚金币")
-        Thread.sleep(3000)
-        for (i in 1..10) {
-            ActionUtils.clickByPoint(context, context.getNodeInfo(), 17, 6, "领福利")
-            for (index in 1..4) {
-                Log.e("yico", "广告 $index")
-                Thread.sleep((((0..5).random() + 30) * 1000L))//看广告
-                ActionUtils.clickByPoint(context, context.getNodeInfo(), 18, 1, "关闭广告")
-                if (index < 4) {
-                    Thread.sleep(3000)
-                    ActionUtils.clickByPoint(context, context.getNodeInfo(), (-3..3).random() + 10, 12, "看视频")
-                }
-            }
-            Thread.sleep(10 * 60 * 1000L)
-        }
     }
 
 }

@@ -58,7 +58,12 @@ object ActionUtils {
      * @param clickParent 是否点击目标控件的父控件
      * @param index 目标控件是列表时，点击列表中第几个控件
      */
-    fun actionByFindText(actionName: String, nodeInfo: AccessibilityNodeInfo?, clickParent: Boolean = true, index: Int = -1): Boolean {
+    fun actionByFindText(
+        actionName: String,
+        nodeInfo: AccessibilityNodeInfo?,
+        clickParent: Boolean = true,
+        index: Int = -1
+    ): Boolean {
         if (nodeInfo == null) return false
         val list = nodeInfo.findAccessibilityNodeInfosByText(actionName)
         if (list == null || list.size == 0) {
@@ -86,19 +91,21 @@ object ActionUtils {
                 }
             }
         } else {
-            list.forEach {
+            list.forEachIndexed { index, it ->
                 if (clickParent) {
                     it.parent?.apply {
                         performAction(AccessibilityNodeInfo.ACTION_FOCUS)
-                        return performAction(AccessibilityNodeInfo.ACTION_CLICK).also { status ->
-                            Log.e("yico", "$actionName 点击 $status")
+                        performAction(AccessibilityNodeInfo.ACTION_CLICK).also { status ->
+                            Log.e("yico", "$actionName 点击第${index}个 $status")
+                            if (status) return true else return@forEachIndexed
                         }
                     }
                 } else {
                     it.apply {
                         performAction(AccessibilityNodeInfo.ACTION_FOCUS)
-                        return performAction(AccessibilityNodeInfo.ACTION_CLICK).also { status ->
-                            Log.e("yico", "$actionName 点击 $status")
+                        performAction(AccessibilityNodeInfo.ACTION_CLICK).also { status ->
+                            Log.e("yico", "$actionName 点击第${index}个 $status")
+                            if (status) return true else return@forEachIndexed
                         }
                     }
                 }
@@ -112,7 +119,13 @@ object ActionUtils {
      * @param x 屏幕等分20份，输入横向相应位置的比例值
      * @param y 屏幕等分20份，输入纵向相应位置的比例值
      */
-    fun clickByPoint(service: DailyRoutineService, nodeInfo: AccessibilityNodeInfo?, x: Int, y: Int, actionName: String = ""): Boolean {
+    fun clickByPoint(
+        service: DailyRoutineService,
+        nodeInfo: AccessibilityNodeInfo?,
+        x: Int,
+        y: Int,
+        actionName: String = ""
+    ): Boolean {
         if (nodeInfo == null) return false
         val rect = Rect()
         nodeInfo.getBoundsInScreen(rect)
@@ -124,24 +137,33 @@ object ActionUtils {
         path.moveTo(point.x.toFloat(), point.y.toFloat())
         builder.addStroke(GestureDescription.StrokeDescription(path, 0L, 100L))
         val gesture = builder.build()
-        return service.dispatchGesture(gesture, object : AccessibilityService.GestureResultCallback() {
-            override fun onCompleted(gestureDescription: GestureDescription?) {
-                super.onCompleted(gestureDescription)
-                Log.e("yico", "$actionName onCompleted")
-            }
+        return service.dispatchGesture(
+            gesture,
+            object : AccessibilityService.GestureResultCallback() {
+                override fun onCompleted(gestureDescription: GestureDescription?) {
+                    super.onCompleted(gestureDescription)
+                    Log.e("yico", "$actionName onCompleted")
+                }
 
-            override fun onCancelled(gestureDescription: GestureDescription?) {
-                super.onCancelled(gestureDescription)
-                Log.e("yico", "$actionName onCancelled")
-            }
-        }, null)
+                override fun onCancelled(gestureDescription: GestureDescription?) {
+                    super.onCancelled(gestureDescription)
+                    Log.e("yico", "$actionName onCancelled")
+                }
+            },
+            null
+        )
     }
 
     /**
-     * @param x 屏幕等分20份，输入横向相应位置的比例值
-     * @param y 屏幕等分20份，输入纵向相应位置的比例值
+     * @param x 屏幕等分100份，输入横向相应位置的比例值
+     * @param y 屏幕等分100份，输入纵向相应位置的比例值
      */
-    fun clickByPointHighPrecision(service: DailyRoutineService, x: Int, y: Int, actionName: String = ""): Boolean {
+    fun clickByPointHighPrecision(
+        service: DailyRoutineService,
+        x: Int,
+        y: Int,
+        actionName: String = ""
+    ): Boolean {
         val nodeInfo = service.getNodeInfo() ?: return false
         val rect = Rect()
         nodeInfo.getBoundsInScreen(rect)
@@ -153,20 +175,67 @@ object ActionUtils {
         path.moveTo(point.x.toFloat(), point.y.toFloat())
         builder.addStroke(GestureDescription.StrokeDescription(path, 0L, 100L))
         val gesture = builder.build()
-        return service.dispatchGesture(gesture, object : AccessibilityService.GestureResultCallback() {
-            override fun onCompleted(gestureDescription: GestureDescription?) {
-                super.onCompleted(gestureDescription)
-                Log.e("yico", "$actionName onCompleted")
-            }
+        return service.dispatchGesture(
+            gesture,
+            object : AccessibilityService.GestureResultCallback() {
+                override fun onCompleted(gestureDescription: GestureDescription?) {
+                    super.onCompleted(gestureDescription)
+                    Log.e("yico", "$actionName onCompleted")
+                }
 
-            override fun onCancelled(gestureDescription: GestureDescription?) {
-                super.onCancelled(gestureDescription)
-                Log.e("yico", "$actionName onCancelled")
-            }
-        }, null)
+                override fun onCancelled(gestureDescription: GestureDescription?) {
+                    super.onCancelled(gestureDescription)
+                    Log.e("yico", "$actionName onCancelled")
+                }
+            },
+            null
+        )
     }
 
-    fun slideByPoint(service: DailyRoutineService, distance: Int, actionName: String = "", strokeUp: Boolean = true): Boolean {
+    /**
+     * @param x 屏幕等分100份，输入横向相应位置的比例值
+     * @param y 屏幕等分100份，输入纵向相应位置的比例值
+     */
+    fun clickByPointScreen(
+        service: DailyRoutineService,
+        x: Int,
+        y: Int,
+        actionName: String = ""
+    ): Boolean {
+        val nodeInfo = service.getNodeInfo() ?: return false
+        val rect = Rect()
+        nodeInfo.getBoundsInScreen(rect)
+        val px = (rect.left + rect.right) / 1450f * x
+        val py = (rect.top + rect.bottom) / 2960f * y
+        val point = Point(px.toInt(), py.toInt())
+        val builder = GestureDescription.Builder()
+        val path = Path()
+        path.moveTo(point.x.toFloat(), point.y.toFloat())
+        builder.addStroke(GestureDescription.StrokeDescription(path, 0L, 100L))
+        val gesture = builder.build()
+        return service.dispatchGesture(
+            gesture,
+            object : AccessibilityService.GestureResultCallback() {
+                override fun onCompleted(gestureDescription: GestureDescription?) {
+                    super.onCompleted(gestureDescription)
+                    Log.e("yico", "$actionName onCompleted")
+                }
+
+                override fun onCancelled(gestureDescription: GestureDescription?) {
+                    super.onCancelled(gestureDescription)
+                    Log.e("yico", "$actionName onCancelled")
+                }
+            },
+            null
+        )
+    }
+
+    fun slideByPoint(
+        service: DailyRoutineService,
+        distance: Int,
+        actionName: String = "",
+        strokeUp: Boolean = true
+    ): Boolean {
         val nodeInfo = service.getNodeInfo() ?: return false
         val rect = Rect()
         nodeInfo.getBoundsInScreen(rect)
@@ -183,7 +252,8 @@ object ActionUtils {
         val tag = if (strokeUp) "上划" else "下划"
 
         return service.dispatchGesture(
-            GestureDescription.Builder().addStroke(GestureDescription.StrokeDescription(path, 0L, 1000L)).build(),
+            GestureDescription.Builder()
+                .addStroke(GestureDescription.StrokeDescription(path, 0L, 1000L)).build(),
             object : AccessibilityService.GestureResultCallback() {
                 override fun onCompleted(gestureDescription: GestureDescription?) {
                     super.onCompleted(gestureDescription)

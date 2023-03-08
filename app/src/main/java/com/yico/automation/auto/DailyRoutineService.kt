@@ -37,7 +37,7 @@ class DailyRoutineService : AccessibilityService() {
                 "3" -> JobJDLite.watchActivity(this@DailyRoutineService)
                 "5" -> JobJDLite.watchCommodity(this@DailyRoutineService)
                 "6" -> JobJDLite.watchVideo(this@DailyRoutineService)
-                "7" -> JobKuaiShou.watchVideo(this@DailyRoutineService)
+                "7" -> JobKuaiShou.watchChicken(this@DailyRoutineService)
                 "8" -> JobKuaiShou.watchLiveStreaming(this@DailyRoutineService)
                 else -> everyDay()
             }
@@ -56,7 +56,7 @@ class DailyRoutineService : AccessibilityService() {
         JobJDT.work(this)
         JobJD.work(this)
         JobTaoBao.work(this)
-        JobFanLi.work(this)
+//        JobFanLi.work(this)
     }
 
     fun getNodeInfo(): AccessibilityNodeInfo? {

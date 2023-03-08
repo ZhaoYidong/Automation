@@ -14,7 +14,7 @@ object JobJiMi {
         Thread.sleep(10000)
         ActionUtils.clickByPoint(context, context.getNodeInfo(), 18, 18)//我的
         Thread.sleep(3000)
-        ActionUtils.clickByPoint(context, context.getNodeInfo(), 10, 7)//签到
+        ActionUtils.clickByPoint(context, context.getNodeInfo(), 5, 12)//签到
 
         Thread.sleep(3000)
     }
