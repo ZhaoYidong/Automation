@@ -16,9 +16,9 @@ object JobArticle {
         Thread.sleep(1000)
         ActionUtils.slideByPoint(context, 8, "去顶部", false)
         Thread.sleep(3000)
-        ActionUtils.clickByPointHighPrecision(context, 80, 48, "立即领取")
+        ActionUtils.clickByPointScreen(context, 1160, 1420, "立即领取")
         Thread.sleep(3000)
-        ActionUtils.clickByPointHighPrecision(context, 50, 60, "点击领取")
+        ActionUtils.clickByPointScreen(context, 725, 1780, "点击领取")
 
         Thread.sleep(3000)
     }
@@ -60,7 +60,7 @@ object JobArticle {
                 ActionUtils.clickByPoint(context, context.getNodeInfo(), (-3..3).random() + 10, 11, "看广告")
                 ActionUtils.clickByPoint(context, context.getNodeInfo(), (-3..3).random() + 10, 12, "看广告")
                 Thread.sleep((((0..5).random() + 30) * 1000L))//看广告
-                ActionUtils.clickByPointHighPrecision(context,  92, 8, "关闭广告")
+                ActionUtils.clickByPointScreen(context,  1335, 236, "关闭广告")
             }
             Thread.sleep((6 * 60 * 1000L))
         }

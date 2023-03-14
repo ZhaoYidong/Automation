@@ -5,6 +5,7 @@ import android.content.Intent
 import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
+import android.widget.Toast
 
 class DailyRoutineService : AccessibilityService() {
 
@@ -32,13 +33,14 @@ class DailyRoutineService : AccessibilityService() {
         override fun run() {
             Log.e("yico", "run")
             when (type) {
-                "1" -> JobArticle.watchVideo(this@DailyRoutineService)
-                "2" -> JobArticle.treasureChest(this@DailyRoutineService)
+                "Article1" -> JobArticle.watchVideo(this@DailyRoutineService)
+                "Article2" -> JobArticle.treasureChest(this@DailyRoutineService)
+                "KuaiShou1" -> JobKuaiShou.watchChicken(this@DailyRoutineService)
+                "KuaiShou2" -> JobKuaiShou.watchLiveStreaming(this@DailyRoutineService)
                 "3" -> JobJDLite.watchActivity(this@DailyRoutineService)
                 "5" -> JobJDLite.watchCommodity(this@DailyRoutineService)
                 "6" -> JobJDLite.watchVideo(this@DailyRoutineService)
-                "7" -> JobKuaiShou.watchChicken(this@DailyRoutineService)
-                "8" -> JobKuaiShou.watchLiveStreaming(this@DailyRoutineService)
+                "WatchVideo" -> JobCommon.watchVideo(this@DailyRoutineService)
                 else -> everyDay()
             }
             watchDog = null

@@ -155,46 +155,8 @@ object ActionUtils {
     }
 
     /**
-     * @param x 屏幕等分100份，输入横向相应位置的比例值
-     * @param y 屏幕等分100份，输入纵向相应位置的比例值
-     */
-    fun clickByPointHighPrecision(
-        service: DailyRoutineService,
-        x: Int,
-        y: Int,
-        actionName: String = ""
-    ): Boolean {
-        val nodeInfo = service.getNodeInfo() ?: return false
-        val rect = Rect()
-        nodeInfo.getBoundsInScreen(rect)
-        val px = (rect.left + rect.right) / 100 * x
-        val py = (rect.top + rect.bottom) / 100 * y
-        val point = Point(px, py)
-        val builder = GestureDescription.Builder()
-        val path = Path()
-        path.moveTo(point.x.toFloat(), point.y.toFloat())
-        builder.addStroke(GestureDescription.StrokeDescription(path, 0L, 100L))
-        val gesture = builder.build()
-        return service.dispatchGesture(
-            gesture,
-            object : AccessibilityService.GestureResultCallback() {
-                override fun onCompleted(gestureDescription: GestureDescription?) {
-                    super.onCompleted(gestureDescription)
-                    Log.e("yico", "$actionName onCompleted")
-                }
-
-                override fun onCancelled(gestureDescription: GestureDescription?) {
-                    super.onCancelled(gestureDescription)
-                    Log.e("yico", "$actionName onCancelled")
-                }
-            },
-            null
-        )
-    }
-
-    /**
-     * @param x 屏幕等分100份，输入横向相应位置的比例值
-     * @param y 屏幕等分100份，输入纵向相应位置的比例值
+     * @param x 屏幕指针位置坐标
+     * @param y 屏幕指针位置坐标
      */
     fun clickByPointScreen(
         service: DailyRoutineService,

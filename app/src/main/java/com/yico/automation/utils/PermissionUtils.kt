@@ -16,7 +16,7 @@ object PermissionUtils {
     private const val EXTRA_FRAGMENT_ARG_KEY = ":settings:fragment_args_key"
     private const val EXTRA_SHOW_FRAGMENT_ARGUMENTS = ":settings:show_fragment_args"
 
-    fun isServiceRunning(context: Context, serviceSimpleName: String): Boolean {
+    private fun isServiceRunning(context: Context, serviceSimpleName: String): Boolean {
         val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         val runningService = activityManager.getRunningServices(Int.MAX_VALUE) as ArrayList<ActivityManager.RunningServiceInfo>
         for (i in runningService.indices) {
@@ -29,7 +29,7 @@ object PermissionUtils {
     }
 
     //此处需注意 simpleName 和 name 的区别：name获取有时候是全路径，有时候是除去包名的部分，判断会不准确，统一用是否包含 simpleName 来判断
-    fun isAccessibilityEnabled(context: Context, simpleName: String, checkService: Boolean = false): Boolean {
+    private fun isAccessibilityEnabled(context: Context, simpleName: String, checkService: Boolean = false): Boolean {
         if (checkService && !isServiceRunning(context, simpleName)) return false
 
         var enable = try {
@@ -63,7 +63,7 @@ object PermissionUtils {
 
     }
 
-    fun getAccessibilityHighlightIntent(context: Context, clazz: Class<*>): Intent {
+    private fun getAccessibilityHighlightIntent(context: Context, clazz: Class<*>): Intent {
         return Intent(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)).apply {
             val bundle = Bundle()
             val componentName = ComponentName(context.packageName, clazz.name).flattenToString()

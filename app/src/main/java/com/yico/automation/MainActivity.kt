@@ -1,18 +1,27 @@
 package com.yico.automation
 
+import android.app.admin.DevicePolicyManager
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.yico.automation.auto.DailyRoutineService
 import com.yico.automation.databinding.ActivityMainBinding
 import com.yico.automation.utils.PermissionUtils
 import com.yico.automation.utils.PhoneUtils
+import com.yico.automation.utils.ScreenOffAdminReceiver
+
 
 class MainActivity : AppCompatActivity() {
 
 
     private var check = false
     private lateinit var binding: ActivityMainBinding
+    private lateinit var policyManager: DevicePolicyManager
+    private lateinit var adminReceiver: ComponentName
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +46,24 @@ class MainActivity : AppCompatActivity() {
             PermissionUtils.gotoPolicyAccessSetting(this)
         }
 
+        adminReceiver = ComponentName(this, ScreenOffAdminReceiver::class.java)
+        policyManager = this.getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
+        val intent = Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN)
+        intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, adminReceiver)
+        intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "开启后就可以使用锁屏功能了...")
+        val adminReceiverRequest =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                //判断超级管理员是否激活
+                if (policyManager.isAdminActive(adminReceiver)) {
+                    Toast.makeText(this, "设备已被激活", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "设备没有被激活", Toast.LENGTH_SHORT).show();
+                }
+            }
+        adminReceiverRequest.launch(intent)
+
+        PhoneUtils.silentSwitchOn(this)
+
         binding.tvStop.setOnClickListener {
             if (!PermissionUtils.isPolicyAccessEnabled(this)) {
                 PermissionUtils.gotoPolicyAccessSetting(this)
@@ -55,22 +82,40 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, DailyRoutineService::class.java)
             this.startService(intent)
         }
-        binding.tv1.setOnClickListener {
+        binding.Article1.setOnClickListener {
             if (!PermissionUtils.isPolicyAccessEnabled(this)) {
                 PermissionUtils.gotoPolicyAccessSetting(this)
                 return@setOnClickListener
             }
             val intent = Intent(this, DailyRoutineService::class.java)
-            intent.putExtra("type", "1")
+            intent.putExtra("type", "Article1")
             this.startService(intent)
         }
-        binding.tv2.setOnClickListener {
+        binding.Article1.setOnClickListener {
             if (!PermissionUtils.isPolicyAccessEnabled(this)) {
                 PermissionUtils.gotoPolicyAccessSetting(this)
                 return@setOnClickListener
             }
             val intent = Intent(this, DailyRoutineService::class.java)
-            intent.putExtra("type", "2")
+            intent.putExtra("type", "Article2")
+            this.startService(intent)
+        }
+        binding.KuaiShou1.setOnClickListener {
+            if (!PermissionUtils.isPolicyAccessEnabled(this)) {
+                PermissionUtils.gotoPolicyAccessSetting(this)
+                return@setOnClickListener
+            }
+            val intent = Intent(this, DailyRoutineService::class.java)
+            intent.putExtra("type", "KuaiShou1")
+            this.startService(intent)
+        }
+        binding.KuaiShou2.setOnClickListener {
+            if (!PermissionUtils.isPolicyAccessEnabled(this)) {
+                PermissionUtils.gotoPolicyAccessSetting(this)
+                return@setOnClickListener
+            }
+            val intent = Intent(this, DailyRoutineService::class.java)
+            intent.putExtra("type", "KuaiShou2")
             this.startService(intent)
         }
         binding.tv3.setOnClickListener {
@@ -100,23 +145,17 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("type", "6")
             this.startService(intent)
         }
-        binding.tv7.setOnClickListener {
+        binding.WatchVideo.setOnClickListener {
             if (!PermissionUtils.isPolicyAccessEnabled(this)) {
                 PermissionUtils.gotoPolicyAccessSetting(this)
                 return@setOnClickListener
             }
+
             val intent = Intent(this, DailyRoutineService::class.java)
-            intent.putExtra("type", "7")
+            intent.putExtra("type", "WatchVideo")
             this.startService(intent)
-        }
-        binding.tv8.setOnClickListener {
-            if (!PermissionUtils.isPolicyAccessEnabled(this)) {
-                PermissionUtils.gotoPolicyAccessSetting(this)
-                return@setOnClickListener
-            }
-            val intent = Intent(this, DailyRoutineService::class.java)
-            intent.putExtra("type", "8")
-            this.startService(intent)
+
+            PhoneUtils.goHome(this)
         }
     }
 
@@ -139,7 +178,12 @@ class MainActivity : AppCompatActivity() {
         check = true
         Thread {
             while (check) {
-                if (PermissionUtils.isAccessibilityEnabled(this, DailyRoutineService::class.java, true)) {
+                if (PermissionUtils.isAccessibilityEnabled(
+                        this,
+                        DailyRoutineService::class.java,
+                        true
+                    )
+                ) {
                     val intent = Intent(this, MainActivity::class.java)
                     this.startActivity(intent)
                     check = false
@@ -147,4 +191,5 @@ class MainActivity : AppCompatActivity() {
             }
         }.start()
     }
+
 }
