@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.Toast
+import com.yico.automation.utils.PhoneUtils
 
 class DailyRoutineService : AccessibilityService() {
 
@@ -32,6 +33,10 @@ class DailyRoutineService : AccessibilityService() {
     private inner class Watchdog : Thread() {
         override fun run() {
             Log.e("yico", "run")
+            Thread {
+                sleep(10 * 1000)
+                PhoneUtils.changeSystemBrightness(this@DailyRoutineService, 1)
+            }.start()
             when (type) {
                 "Article1" -> JobArticle.watchVideo(this@DailyRoutineService)
                 "Article2" -> JobArticle.treasureChest(this@DailyRoutineService)
@@ -43,6 +48,7 @@ class DailyRoutineService : AccessibilityService() {
                 "WatchVideo" -> JobCommon.watchVideo(this@DailyRoutineService)
                 else -> everyDay()
             }
+            PhoneUtils.changeSystemBrightness(this@DailyRoutineService, 100)
             watchDog = null
         }
     }

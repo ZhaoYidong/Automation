@@ -54,7 +54,11 @@ object JobKuaiShou {
         (1..5).forEach { _ ->
             ActionUtils.actionByFindText("去赚钱", context.getNodeInfo())
             Thread.sleep(10000)
-            ActionUtils.clickByPointScreen(context, 880, 1600, "喂鸭")
+            context.back()
+            Thread.sleep(3000)
+            ActionUtils.actionByFindText("去赚钱", context.getNodeInfo())
+            Thread.sleep(3000)
+            ActionUtils.clickByPointScreen(context, 560, 1600, "喂鸭")
             Thread.sleep(5000)
             ActionUtils.clickByPointScreen(context, 1000, 2000, "领取饲料")
             Thread.sleep(3000)

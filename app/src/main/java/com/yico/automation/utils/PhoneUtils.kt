@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.AudioManager
+import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
 import com.yico.automation.App
@@ -52,6 +53,16 @@ object PhoneUtils {
         intent.addCategory(Intent.CATEGORY_HOME)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         context.startActivity(intent)
+    }
+
+    fun changeSystemBrightness(context: Context, brightness: Int) {
+        if (Settings.System.canWrite(context)) {
+            Settings.System.putInt(
+                context.contentResolver, Settings.System.SCREEN_BRIGHTNESS, brightness
+            )
+        } else {
+            Toast.makeText(context, "没有调节屏幕亮度的权限", Toast.LENGTH_SHORT).show()
+        }
     }
 
 }

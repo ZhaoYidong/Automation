@@ -83,4 +83,8 @@ object PermissionUtils {
         context.startActivity(intent)
     }
 
+    fun gotoWriteSetting(context: Context) {
+        context.startActivity(Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS))
+    }
+
 }
