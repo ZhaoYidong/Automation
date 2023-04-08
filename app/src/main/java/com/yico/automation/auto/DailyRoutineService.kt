@@ -60,10 +60,10 @@ class DailyRoutineService : AccessibilityService() {
     private fun everyDay() {
         JobiQiYi.work(this)
         JobJDLite.work(this)
+        JobTaoBao.work(this)
         JobJiMi.work(this)
         JobJDT.work(this)
         JobJD.work(this)
-        JobTaoBao.work(this)
 //        JobFanLi.work(this)
     }
 

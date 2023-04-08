@@ -63,14 +63,6 @@ object JobTaoBao {
         Thread.sleep(3000)
         context.back()
         Thread.sleep(3000)
-
-        ActionUtils.actionByFindText("签到", context.getNodeInfo(), false)
-        Thread.sleep(8000)
-        Thread.sleep(5 * 60 * 1000)
-        ActionUtils.clickByPointScreen(context, 1270, 1150, "点击领取")
-        Thread.sleep(3000)
-        context.back()
-        Thread.sleep(3000)
     }
 
 }
