@@ -16,7 +16,7 @@ object JobJDT {
         Thread.sleep(5000)
         ActionUtils.actionByFindText("签到", context.getNodeInfo())
         Thread.sleep(5000)
-        ActionUtils.clickByPoint(context, context.getNodeInfo(), 10, 7, "签到领金贴")
+        ActionUtils.clickByPointScreen(context,  750, 1300, "签到领金贴")
         Thread.sleep(5000)
         context.back()
         Thread.sleep(3000)

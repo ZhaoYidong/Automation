@@ -46,6 +46,8 @@ class DailyRoutineService : AccessibilityService() {
                 "5" -> JobJDLite.watchCommodity(this@DailyRoutineService)
                 "6" -> JobJDLite.watchVideo(this@DailyRoutineService)
                 "WatchVideo" -> JobCommon.watchVideo(this@DailyRoutineService)
+                "WatchDY" -> JobCommon.watchDY(this@DailyRoutineService)
+                "WatchNovel" -> JobCommon.watchNovel(this@DailyRoutineService)
                 else -> everyDay()
             }
             PhoneUtils.changeSystemBrightness(this@DailyRoutineService, 100)

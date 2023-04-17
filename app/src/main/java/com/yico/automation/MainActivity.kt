@@ -134,6 +134,20 @@ class MainActivity : AppCompatActivity() {
 
             PhoneUtils.goHome(this)
         }
+        binding.WatchDY.setOnClickListener {
+            val intent = Intent(this, DailyRoutineService::class.java)
+            intent.putExtra("type", "WatchDY")
+            this.startService(intent)
+
+            PhoneUtils.goHome(this)
+        }
+        binding.WatchNovel.setOnClickListener {
+            val intent = Intent(this, DailyRoutineService::class.java)
+            intent.putExtra("type", "WatchNovel")
+            this.startService(intent)
+
+            PhoneUtils.goHome(this)
+        }
     }
 
 
